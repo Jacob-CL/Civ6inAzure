@@ -1,17 +1,15 @@
-import tailer
-import re
-import threading
 import csv
-import time
-import logging
-import traceback
 import json
+import logging
 import os
-from azure.identity import DefaultAzureCredential
-import os
+import tailer
+import threading
+import time
+import traceback
+from azure.core.exceptions import HttpResponseError
 from azure.identity import DefaultAzureCredential
 from azure.monitor.ingestion import LogsIngestionClient
-from azure.core.exceptions import HttpResponseError
+
 
 # logging.basicConfig(level=logging.DEBUG, format='---> %(levelname)s - %(message)s')
 # logging.info("LogSender.py started...")
@@ -39,7 +37,7 @@ def monitor_log_file(log_file_path):
                         print("I found a new line!")
                         line_json = convert_new_logline_to_json(log_file_path, line)
                         send_it("Custom-AStarGC_CL", line_json)
-                        print("New lines sent!")                 
+                        print("New line sent!")                 
 
         except HttpResponseError or FileNotFoundError as e:
                 if FileNotFoundError:
@@ -112,6 +110,7 @@ def convert_logfile_data_to_json(log_file_path):
             }
 
         log_data.append(log_entry)
+        
 
     # Convert the list of dictionaries to JSON format
     json_data = json.dumps(log_data)
@@ -143,7 +142,6 @@ def convert_new_logline_to_json(log_file_path, line):
     json_data = json.dumps(log_data)
 
     return json_data
-
 
 ############################################################################################################################
 ############################################################################################################################
