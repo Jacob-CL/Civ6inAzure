@@ -34,8 +34,8 @@ def monitor_log_file(log_file_path):
                     print(f"Found {filename}..")
                     AStarGC_json = convert_logfile_to_json(log_file_path)
                     #send_it("Custom-AStarGC_CL", AStarGC_json)
-                    print(f"Sent {filename} file!")
-                    print(f"Now listening for new lines in {filename}...")
+                    print(f"✔ Sent {filename} file!")
+                    print(f"-- Now listening for new lines in {filename}...")
 
                     # Now continue to monitor for new lines
                     for line in tailer.follow(logfile):
@@ -50,8 +50,8 @@ def monitor_log_file(log_file_path):
                     print(f'Found {filename}..')
                     Lua_json = convert_logfile_to_json(log_file_path)
                     #send_it("Custom-Lua_CL", Lua_json)
-                    print(f"Sent {filename} file!")
-                    print(f"Now listening for new lines in {filename}...")
+                    print(f"✔ Sent {filename} file!")
+                    print(f"-- Now listening for new lines in {filename}...")
 
                     # Now continue to monitor for new lines
                     for line in tailer.follow(logfile):
@@ -65,15 +65,15 @@ def monitor_log_file(log_file_path):
                     filename = "GameCore.log"
                     print(f'Found {filename}..')
                     GameCore_json = convert_logfile_to_json(log_file_path)
-                    send_it("Custom-GameCore_CL", GameCore_json)
-                    print(f"Sent {filename} file!")
-                    print(f"Now listening for new lines in {filename}...")
+                    #send_it("Custom-GameCore_CL", GameCore_json)
+                    print(f"✔ Sent {filename} file!")
+                    print(f"-- Now listening for new lines in {filename}...")
 
                     # Now continue to monitor for new lines
                     for line in tailer.follow(logfile):
                         print(f"I found a new line in {filename}!")
                         line_json = convert_new_logline_to_json(log_file_path, line)
-                        send_it("Custom-GameCore_CL", line_json)
+                        #send_it("Custom-GameCore_CL", line_json)
                         print(f"New {filename} line sent!") 
 
 
@@ -96,8 +96,8 @@ def monitor_csv_file(csv_file_path):
                     print(f'Found {filename}..')
                     barbarians_json = convert_csv_to_json(csv_file_path)  # Pass the file path, not the file object
                     send_it("Custom-Barbarians_CL", barbarians_json)
-                    print(f"Sent {filename} file!")
-                    print(f"Now listening for new lines in {filename}...")
+                    print(f"✔ Sent {filename} file!")
+                    print(f"-- Now listening for new lines in {filename}...")
 
                     # Now continue to monitor for new lines
                     for line in tailer.follow(logfile):
@@ -260,7 +260,8 @@ def convert_new_logline_to_json(log_file_path, line):
                         "Message": parts[1].strip(),
             }
             log_data.append(log_entry)
-    
+
+
     # Convert the list of dictionaries to JSON format
     json_data = json.dumps(log_data)
 
