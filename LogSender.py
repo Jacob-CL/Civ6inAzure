@@ -31,7 +31,7 @@ def monitor_log_file(log_file_path):
 
                 if log_file_path == "C:\\Users\\User\\AppData\\Local\\Firaxis Games\\Sid Meier\'s Civilization VI\\Logs\\AStar_GC.log":
                     filename = "AStar_GC.log"
-                    print(f"Found {filename}..")
+                    print(f"> Found {filename}..")
                     AStarGC_json = convert_logfile_to_json(log_file_path)
                     #send_it("Custom-AStarGC_CL", AStarGC_json)
                     print(f"✔ Sent {filename} file!")
@@ -47,7 +47,7 @@ def monitor_log_file(log_file_path):
 
                 if log_file_path == 'C:\\Users\\User\\AppData\\Local\\Firaxis Games\\Sid Meier\'s Civilization VI\\Logs\\Lua.log':
                     filename = "Lua.log"
-                    print(f'Found {filename}..')
+                    print(f'> Found {filename}..')
                     Lua_json = convert_logfile_to_json(log_file_path)
                     #send_it("Custom-Lua_CL", Lua_json)
                     print(f"✔ Sent {filename} file!")
@@ -63,7 +63,7 @@ def monitor_log_file(log_file_path):
 
                 if log_file_path == 'C:\\Users\\User\\AppData\\Local\\Firaxis Games\\Sid Meier\'s Civilization VI\\Logs\\GameCore.log':
                     filename = "GameCore.log"
-                    print(f'Found {filename}..')
+                    print(f'> Found {filename}..')
                     GameCore_json = convert_logfile_to_json(log_file_path)
                     #send_it("Custom-GameCore_CL", GameCore_json)
                     print(f"✔ Sent {filename} file!")
@@ -93,7 +93,7 @@ def monitor_csv_file(csv_file_path):
             with open(csv_file_path, "r") as logfile:
                 if csv_file_path == "C:\\Users\\User\\AppData\\Local\\Firaxis Games\\Sid Meier\'s Civilization VI\\Logs\\Barbarians.csv":
                     filename = "Barbarians.csv"
-                    print(f'Found {filename}..')
+                    print(f'> Found {filename}..')
                     barbarians_json = convert_csv_to_json(csv_file_path)  # Pass the file path, not the file object
                     send_it("Custom-Barbarians_CL", barbarians_json)
                     print(f"✔ Sent {filename} file!")
