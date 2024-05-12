@@ -17,6 +17,7 @@ from azure.monitor.ingestion import LogsIngestionClient
 files = [ 
     {'type': 'log', 'path': 'C:\\Users\\User\\AppData\\Local\\Firaxis Games\\Sid Meier\'s Civilization VI\\Logs\\AStar_GC.log'},
     {'type': 'log', 'path': 'C:\\Users\\User\\AppData\\Local\\Firaxis Games\\Sid Meier\'s Civilization VI\\Logs\\Lua.log'},
+    {'type': 'log', 'path': 'C:\\Users\\User\\AppData\\Local\\Firaxis Games\\Sid Meier\'s Civilization VI\\Logs\\GameCore.log'},
 ]
 
 ############################################################################################################################
@@ -47,17 +48,32 @@ def monitor_log_file(log_file_path):
                     filename = "Lua.log"
                     print(f'Found {filename}..')
                     Lua_json = convert_logfile_to_json(log_file_path)
-                    send_it("Custom-Lua_CL", Lua_json)
+                    #send_it("Custom-Lua_CL", Lua_json)
                     print(f"Sent {filename} file!")
                     print(f"Now listening for new lines in {filename}...")
-
 
                     # Now continue to monitor for new lines
                     for line in tailer.follow(logfile):
                         print(f"I found a new line in {filename}!")
                         line_json = convert_new_logline_to_json(log_file_path, line)
-                        send_it("Custom-Lua_CL", line_json)
+                        #send_it("Custom-Lua_CL", line_json)
                         print(f"New {filename} line sent!")
+
+
+                if log_file_path == 'C:\\Users\\User\\AppData\\Local\\Firaxis Games\\Sid Meier\'s Civilization VI\\Logs\\GameCore.log':
+                    filename = "GameCore.log"
+                    print(f'Found {filename}..')
+                    GameCore_json = convert_logfile_to_json(log_file_path)
+                    send_it("Custom-GameCore_CL", GameCore_json)
+                    print(f"Sent {filename} file!")
+                    print(f"Now listening for new lines in {filename}...")
+
+                    # Now continue to monitor for new lines
+                    for line in tailer.follow(logfile):
+                        print(f"I found a new line in {filename}!")
+                        line_json = convert_new_logline_to_json(log_file_path, line)
+                        send_it("Custom-GameCore_CL", line_json)
+                        print(f"New {filename} line sent!") 
 
 
         except HttpResponseError or FileNotFoundError as e:
@@ -140,7 +156,21 @@ def convert_logfile_to_json(log_file_path):
                     # If the line contains a colon
                     event = parts[0].strip()  # Event is the part before the colon
                     message = parts[1].strip()  # Message is the part after the colon
-                    
+
+                    log_entry = {
+                            "Event": event,
+                            "Message": message
+                        }
+                log_data.append(log_entry)
+
+        if log_file_path == "C:\\Users\\User\\AppData\\Local\\Firaxis Games\\Sid Meier\'s Civilization VI\\Logs\\GameCore.log":
+            for line in lines:
+                parts = line.strip().split(' ', 1)
+                if len(parts) == 2:
+                    # If the line contains a colon
+                    event = parts[0].strip()  # Event is the part before the colon
+                    message = parts[1].strip()  # Message is the part after the colon
+
                     log_entry = {
                             "Event": event,
                             "Message": message
@@ -172,7 +202,7 @@ def convert_new_logline_to_json(log_file_path, line):
                 "Info": int(parts[7].strip()),
                 "Checksum": parts[8].strip()
             }
-        log_data.append(log_entry)
+            log_data.append(log_entry)
 
         if log_file_path == "C:\\Users\\User\\AppData\\Local\\Firaxis Games\\Sid Meier\'s Civilization VI\\Logs\\Lua.log":
             parts = line.strip().split(':')
@@ -180,7 +210,15 @@ def convert_new_logline_to_json(log_file_path, line):
                         "Event": parts[0].strip(),
                         "Message": parts[1].strip(),
             }
-        log_data.append(log_entry)
+            log_data.append(log_entry)
+
+        if log_file_path == "C:\\Users\\User\\AppData\\Local\\Firaxis Games\\Sid Meier\'s Civilization VI\\Logs\\GameCore.log":
+            parts = line.strip().split(' ', 1)
+            log_entry = {
+                        "Event": parts[0].strip(),
+                        "Message": parts[1].strip(),
+            }
+            log_data.append(log_entry)
     
     # Convert the list of dictionaries to JSON format
     json_data = json.dumps(log_data)
