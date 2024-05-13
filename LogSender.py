@@ -31,7 +31,7 @@ def monitor_log_file(log_file_path):
 
                 if log_file_path == "C:\\Users\\User\\AppData\\Local\\Firaxis Games\\Sid Meier\'s Civilization VI\\Logs\\AStar_GC.log":
                     filename = "AStar_GC.log"
-                    print(f"> Found {filename}..")
+                    print(f"Found {filename}..")
                     AStarGC_json = convert_logfile_to_json(log_file_path)
                     #send_it("Custom-AStarGC_CL", AStarGC_json)
                     print(f"✔ Sent {filename} file!")
@@ -47,7 +47,7 @@ def monitor_log_file(log_file_path):
 
                 if log_file_path == 'C:\\Users\\User\\AppData\\Local\\Firaxis Games\\Sid Meier\'s Civilization VI\\Logs\\Lua.log':
                     filename = "Lua.log"
-                    print(f'> Found {filename}..')
+                    print(f'Found {filename}..')
                     Lua_json = convert_logfile_to_json(log_file_path)
                     #send_it("Custom-Lua_CL", Lua_json)
                     print(f"✔ Sent {filename} file!")
@@ -63,7 +63,7 @@ def monitor_log_file(log_file_path):
 
                 if log_file_path == 'C:\\Users\\User\\AppData\\Local\\Firaxis Games\\Sid Meier\'s Civilization VI\\Logs\\GameCore.log':
                     filename = "GameCore.log"
-                    print(f'> Found {filename}..')
+                    print(f'Found {filename}..')
                     GameCore_json = convert_logfile_to_json(log_file_path)
                     #send_it("Custom-GameCore_CL", GameCore_json)
                     print(f"✔ Sent {filename} file!")
@@ -93,7 +93,7 @@ def monitor_csv_file(csv_file_path):
             with open(csv_file_path, "r") as logfile:
                 if csv_file_path == "C:\\Users\\User\\AppData\\Local\\Firaxis Games\\Sid Meier\'s Civilization VI\\Logs\\Barbarians.csv":
                     filename = "Barbarians.csv"
-                    print(f'> Found {filename}..')
+                    print(f'Found {filename}..')
                     barbarians_json = convert_csv_to_json(csv_file_path)  # Pass the file path, not the file object
                     send_it("Custom-Barbarians_CL", barbarians_json)
                     print(f"✔ Sent {filename} file!")
@@ -102,7 +102,7 @@ def monitor_csv_file(csv_file_path):
                     # Now continue to monitor for new lines
                     for line in tailer.follow(logfile):
                         print(f"I found a new line in {filename}!")
-                        line_json = convert_new_logline_to_json(csv_file_path, line)
+                        line_json = convert_new_csvline_to_json(csv_file_path, line)
                         send_it("Custom-Barbarians_CL", line_json)
                         print(f"New {filename} line sent!") 
 
@@ -131,7 +131,22 @@ def convert_csv_to_json(csv_file_path):
         # Convert the list of dictionaries to JSON format
         log_data = json.dumps(log_data)
         return log_data
+    
 
+
+############################################################################################################################
+############################################################################################################################
+
+def convert_new_csvline_to_json(csv_file_path, line):
+    json_data = None
+    if csv_file_path == "C:\\Users\\User\\AppData\\Local\\Firaxis Games\\Sid Meier\'s Civilization VI\\Logs\\Barbarians.csv":
+        # Assuming the CSV file has the same structure as others
+        csv_row = line.strip().split(',')  # Assuming CSV is comma-separated
+        fieldnames = ['Added_This_Turn', 'Desired_Camps', 'Land_Plots', 'No_Visibility', 'Num_Camps', 'Tribes', 'Turn']
+        line_dict = dict(zip(fieldnames, csv_row))
+        json_data = json.dumps(line_dict)
+
+    return json_data
 
 
 ############################################################################################################################
