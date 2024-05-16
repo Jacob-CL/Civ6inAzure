@@ -1,0 +1,111 @@
+[
+    {
+      "Event": "DebugHotloadCache",
+      "Message": "GameDebug initialized!"
+    },
+    {
+      "Event": "Test",
+      "Message": "Test.LUA loaded!"
+    },
+    {
+      "Event": "JoiningRoom",
+      "Message": "OnFinishedGameplayContentConfigure() g_waitingForContentConfigure=true"
+    },
+    {
+      "Event": "AdvancedSetup",
+      "Message": "There are 6 participating players."
+    },
+    {
+      "Event": "AdvancedSetup",
+      "Message": "Building Game Setup"
+    },
+    {
+      "Event": "AdvancedSetup",
+      "Message": "Player Count Changed"
+    },
+    {
+      "Event": "AdvancedSetup",
+      "Message": "There are 6 participating players."
+    },
+    {
+      "Event": "AdvancedSetup",
+      "Message": "Player Count Changed"
+    },
+    {
+      "Event": "AdvancedSetup",
+      "Message": "There are 6 participating players."
+    },
+    {
+      "Event": "JoiningRoom",
+      "Message": "OnFinishedGameplayContentConfigure() g_waitingForContentConfigure=true"
+    },
+    {
+      "Event": "JoiningRoom",
+      "Message": "OnFinishedGameplayContentConfigure() g_waitingForContentConfigure=true"
+    },
+    {
+      "Event": "AdvancedSetup",
+      "Message": "Hiding Game Setup"
+    },
+    {
+      "Event": "LoadScreen",
+      "Message": "Custom LoadScreen for BSM"
+    },
+    {
+      "Event": "LoadScreen",
+      "Message": "Loadscreen Initialize()"
+    },
+    {
+      "Event": "LoadScreen",
+      "Message": "OnInit()"
+    },
+    {
+      "Event": "LoadScreen",
+      "Message": "OnShow()"
+    },
+    {
+      "Event": "LoadScreen",
+      "Message": "Loadscreen GetData"
+    },
+    {
+      "Event": "LoadScreen",
+      "Message": "OnLoadScreenContentReady()"
+    },
+    {
+      "Event": "LoadScreen",
+      "Message": "true"
+    },
+    {
+      "Event": "LoadScreen",
+      "Message": "false"
+    },
+    {
+      "Event": "LoadScreen",
+      "Message": "true"
+    },
+    {
+      "Event": "LoadScreen",
+      "Message": "true"
+    },
+    {
+      "Event": "LoadScreen",
+      "Message": "true"
+    },
+    {
+      "Event": "LoadScreen",
+      "Message": "erahash -1851407529"
+    },
+    {
+      "Event": "GenerateRandomMap",
+      "Message": "Map Seed = -1779625944"
+    },
+    {
+      "Event": "Map Script",
+      "Message": "Generating Continents Map"
+    },
+    {
+      "Event": "Map Script",
+      "Message": "Generating Plot Types"
+    }
+  ]
+  
