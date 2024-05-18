@@ -15,10 +15,13 @@ from azure.monitor.ingestion import LogsIngestionClient
 # logging.info("LogSender.py started...")
 
 files = [ 
-    {'type': 'log', 'path': 'C:\\Users\\User\\AppData\\Local\\Firaxis Games\\Sid Meier\'s Civilization VI\\Logs\\AStar_GC.log'},
-    {'type': 'log', 'path': 'C:\\Users\\User\\AppData\\Local\\Firaxis Games\\Sid Meier\'s Civilization VI\\Logs\\Lua.log'},
-    {'type': 'log', 'path': 'C:\\Users\\User\\AppData\\Local\\Firaxis Games\\Sid Meier\'s Civilization VI\\Logs\\GameCore.log'},
-    {'type': 'csv', 'path': 'C:\\Users\\User\\AppData\\Local\\Firaxis Games\\Sid Meier\'s Civilization VI\\Logs\\Barbarians.csv'},
+    # {'type': 'log', 'path': 'C:\\Users\\User\\AppData\\Local\\Firaxis Games\\Sid Meier\'s Civilization VI\\Logs\\AStar_GC.log'},
+    # {'type': 'log', 'path': 'C:\\Users\\User\\AppData\\Local\\Firaxis Games\\Sid Meier\'s Civilization VI\\Logs\\Lua.log'},
+    # {'type': 'log', 'path': 'C:\\Users\\User\\AppData\\Local\\Firaxis Games\\Sid Meier\'s Civilization VI\\Logs\\GameCore.log'},
+    # {'type': 'csv', 'path': 'C:\\Users\\User\\AppData\\Local\\Firaxis Games\\Sid Meier\'s Civilization VI\\Logs\\Barbarians.csv'},
+     {'type': 'csv', 'path': 'C:\\Users\\User\\AppData\\Local\\Firaxis Games\\Sid Meier\'s Civilization VI\\Logs\\AI_CityBuild.csv'},
+    # {'type': 'csv', 'path': 'C:\\Users\\User\\AppData\\Local\\Firaxis Games\\Sid Meier\'s Civilization VI\\Logs\\Player_Stats.csv'},
+    # {'type': 'csv', 'path': 'C:\\Users\\User\\AppData\\Local\\Firaxis Games\\Sid Meier\'s Civilization VI\\Logs\\Player_Stats_2.csv'},
 ]
 
 ############################################################################################################################
@@ -33,7 +36,9 @@ def monitor_log_file(log_file_path):
                     filename = "AStar_GC.log"
                     print(f"Found {filename}..")
                     AStarGC_json = convert_logfile_to_json(log_file_path)
-                    #send_it("Custom-AStarGC_CL", AStarGC_json)
+                    with open("AStar_GC_OUTPUT.txt", "w") as file:
+                        file.write(str(AStarGC_json))
+                    send_it("Custom-Unit_Movement_CL", AStarGC_json)
                     print(f"✔ Sent {filename} file!")
                     print(f"-- Now listening for new lines in {filename}...")
 
@@ -41,7 +46,7 @@ def monitor_log_file(log_file_path):
                     for line in tailer.follow(logfile):
                         print(f"I found a new line in {filename}!")
                         line_json = convert_new_logline_to_json(log_file_path, line)
-                        #send_it("Custom-AStarGC_CL", line_json)
+                        send_it("Custom-Unit_Movement_CL", line_json)
                         print(f"New {filename} line sent!")
                 
 
@@ -49,7 +54,9 @@ def monitor_log_file(log_file_path):
                     filename = "Lua.log"
                     print(f'Found {filename}..')
                     Lua_json = convert_logfile_to_json(log_file_path)
-                    #send_it("Custom-Lua_CL", Lua_json)
+                    with open("Lua_OUTPUT.txt", "w") as file:
+                        file.write(str(Lua_json))
+                    send_it("Custom-Map_Generation_CL", Lua_json)
                     print(f"✔ Sent {filename} file!")
                     print(f"-- Now listening for new lines in {filename}...")
 
@@ -57,7 +64,7 @@ def monitor_log_file(log_file_path):
                     for line in tailer.follow(logfile):
                         print(f"I found a new line in {filename}!")
                         line_json = convert_new_logline_to_json(log_file_path, line)
-                        #send_it("Custom-Lua_CL", line_json)
+                        send_it("Custom-Map_Generation_CL", line_json)
                         print(f"New {filename} line sent!")
 
 
@@ -65,7 +72,9 @@ def monitor_log_file(log_file_path):
                     filename = "GameCore.log"
                     print(f'Found {filename}..')
                     GameCore_json = convert_logfile_to_json(log_file_path)
-                    #send_it("Custom-GameCore_CL", GameCore_json)
+                    with open("GameCore_OUTPUT.txt", "w") as file:
+                        file.write(str(GameCore_json))
+                    send_it("Custom-Player_Generation_CL", GameCore_json)
                     print(f"✔ Sent {filename} file!")
                     print(f"-- Now listening for new lines in {filename}...")
 
@@ -73,7 +82,7 @@ def monitor_log_file(log_file_path):
                     for line in tailer.follow(logfile):
                         print(f"I found a new line in {filename}!")
                         line_json = convert_new_logline_to_json(log_file_path, line)
-                        #send_it("Custom-GameCore_CL", line_json)
+                        send_it("Custom-Player_Generation_CL", line_json)
                         print(f"New {filename} line sent!") 
 
 
@@ -95,6 +104,8 @@ def monitor_csv_file(csv_file_path):
                     filename = "Barbarians.csv"
                     print(f'Found {filename}..')
                     barbarians_json = convert_csv_to_json(csv_file_path)  # Pass the file path, not the file object
+                    with open("Barbarian_OUTPUT.txt", "w") as file:
+                        file.write(str(barbarians_json))
                     send_it("Custom-Barbarian_Camps_CL", barbarians_json)
                     send_it2("Custom-Barbarian_Units_CL", barbarians_json)
                     print(f"✔ Sent {filename} file!")
@@ -108,10 +119,73 @@ def monitor_csv_file(csv_file_path):
                     for line in tailer.follow(open(csv_file_path)):
                         print(f"I found a new line in {filename}!")
                         line_json = convert_new_csvline_to_json(line, headers)
-                        with open("debug.txt", "w") as file:
-                            file.write(str(line_json))
                         send_it("Custom-Barbarian_Camps_CL", line_json)
                         send_it2("Custom-Barbarian_Units_CL", line_json)
+                        print(f"New {filename} line sent!")
+
+
+                if csv_file_path == "C:\\Users\\User\\AppData\\Local\\Firaxis Games\\Sid Meier's Civilization VI\\Logs\\AI_CityBuild.csv":
+                    filename = "AI_CityBuild.csv"
+                    print(f'Found {filename}..')
+                    AI_CityBuild_json = convert_csv_to_json(csv_file_path)  # Pass the file path, not the file object
+                    with open("AI_CityBuild_OUTPUT.txt", "w") as file:
+                        file.write(str(AI_CityBuild_json))
+                    send_it("Custom-Civ_Production_Queue_CL", AI_CityBuild_json)
+                    print(f"✔ Sent {filename} file!")
+                    print(f"-- Now listening for new lines in {filename}...")
+
+                    # Process the headers
+                    reader = csv.DictReader(logfile)
+                    headers = [header.strip().replace(' ', '_') for header in reader.fieldnames]
+
+                    # Now continue to monitor for new lines
+                    for line in tailer.follow(open(csv_file_path)):
+                        print(f"I found a new line in {filename}!")
+                        line_json = convert_new_csvline_to_json(line, headers)
+                        send_it("Custom-Barbarian_Camps_CL", line_json)
+                        send_it2("Custom-Barbarian_Units_CL", line_json)
+                        print(f"New {filename} line sent!")
+
+                if csv_file_path == "C:\\Users\\User\\AppData\\Local\\Firaxis Games\\Sid Meier's Civilization VI\\Logs\\Player_Stats.csv":
+                    filename = "Player_Stats.csv"
+                    print(f'Found {filename}..')
+                    player_stats_1_json = convert_csv_to_json(csv_file_path)  # Pass the file path, not the file object
+                    with open("Player_Stats_1_OUTPUT.txt", "w") as file:
+                        file.write(str(player_stats_1_json))
+                    send_it("Custom-Player_Stats_1_CL", player_stats_1_json)
+                    print(f"✔ Sent {filename} file!")
+                    print(f"-- Now listening for new lines in {filename}...")
+
+                    # Process the headers
+                    reader = csv.DictReader(logfile)
+                    headers = [header.strip().replace(' ', '_') for header in reader.fieldnames]
+
+                    # Now continue to monitor for new lines
+                    for line in tailer.follow(open(csv_file_path)):
+                        print(f"I found a new line in {filename}!")
+                        line_json = convert_new_csvline_to_json(line, headers)
+                        send_it("Custom-Player_Stats_1_CL", line_json)
+                        print(f"New {filename} line sent!")
+
+                if csv_file_path == "C:\\Users\\User\\AppData\\Local\\Firaxis Games\\Sid Meier's Civilization VI\\Logs\\Player_Stats_2.csv":
+                    filename = "Player_Stats_2.csv"
+                    print(f'Found {filename}..')
+                    player_stats_2_json = convert_csv_to_json(csv_file_path)  # Pass the file path, not the file object
+                    with open("Player_Stats_2_OUTPUT.txt", "w") as file:
+                        file.write(str(player_stats_2_json))
+                    send_it("Custom-Player_Stats_2_CL", player_stats_2_json)
+                    print(f"✔ Sent {filename} file!")
+                    print(f"-- Now listening for new lines in {filename}...")
+
+                    # Process the headers
+                    reader = csv.DictReader(logfile)
+                    headers = [header.strip().replace(' ', '_') for header in reader.fieldnames]
+
+                    # Now continue to monitor for new lines
+                    for line in tailer.follow(open(csv_file_path)):
+                        print(f"I found a new line in {filename}!")
+                        line_json = convert_new_csvline_to_json(line, headers)
+                        send_it("Custom-Player_Stats_2_CL", line_json)
                         print(f"New {filename} line sent!")
 
         except Exception as e:
@@ -126,20 +200,49 @@ def convert_csv_to_json(csv_file_path):
 
     with open(csv_file_path, mode='r') as file:
         reader = csv.DictReader(file)
+        
+        if csv_file_path == "C:\\Users\\User\\AppData\\Local\\Firaxis Games\\Sid Meier's Civilization VI\\Logs\\Barbarians.csv":
+            # Process the headers
+            headers = [header.strip().replace(' ', '_') for header in reader.fieldnames]
+            # Iterate over each row in the CSV file
+            for row in reader:
+                # Create a dictionary for the current row with all values as strings
+                modified_row = {headers[i]: str(value).strip() if value is not None else '' for i, (header, value) in enumerate(row.items())}
+                log_data.append(modified_row)
 
-        # Process the headers
-        headers = [header.strip().replace(' ', '_') for header in reader.fieldnames]
+        if csv_file_path == "C:\\Users\\User\\AppData\\Local\\Firaxis Games\\Sid Meier's Civilization VI\\Logs\\AI_CityBuild.csv":
+            # Process the headers
+            headers = [header.strip().replace(' ', '_') for header in reader.fieldnames]
+            headers = [header.strip().replace('.', '') for header in reader.fieldnames]
+            # Iterate over each row in the CSV file
+            for row in reader:
+                # Create a dictionary for the current row with all values as strings
+                modified_row = {headers[i]: str(value).strip() if value is not None else '' for i, (header, value) in enumerate(row.items())}
+                log_data.append(modified_row)
 
-        # Iterate over each row in the CSV file
-        for row in reader:
-            # Create a dictionary for the current row with all values as strings
-            modified_row = {headers[i]: str(value).strip() if value is not None else '' for i, (header, value) in enumerate(row.items())}
-            log_data.append(modified_row)
+        if csv_file_path == "C:\\Users\\User\\AppData\\Local\\Firaxis Games\\Sid Meier's Civilization VI\\Logs\\Player_Stats.csv":
+            # Process the headers
+            headers = [header.strip().replace(' ', '_') for header in reader.fieldnames]
+            # Iterate over each row in the CSV file
+            for row in reader:
+                # Create a dictionary for the current row with all values as strings
+                modified_row = {headers[i]: str(value).strip() if value is not None else '' for i, (header, value) in enumerate(row.items())}
+                log_data.append(modified_row)
 
-    # Convert the list of dictionaries to JSON format
-    json_data = json.dumps(log_data, indent=2)
-    return json_data
-    
+        if csv_file_path == "C:\\Users\\User\\AppData\\Local\\Firaxis Games\\Sid Meier's Civilization VI\\Logs\\Player_Stats_2.csv":
+            # Process the headers
+            headers = [header.strip().replace(' ', '_') for header in reader.fieldnames]
+            # Iterate over each row in the CSV file
+            for row in reader:
+                # Create a dictionary for the current row with all values as strings
+                modified_row = {headers[i]: str(value).strip() if value is not None else '' for i, (header, value) in enumerate(row.items())}
+                log_data.append(modified_row)
+        
+
+        # Convert the list of dictionaries to JSON format
+        json_data = json.dumps(log_data, indent=2)
+        return json_data
+        
 
 
 ############################################################################################################################
@@ -307,7 +410,7 @@ def convert_new_logline_to_json(log_file_path, line):
 ############################################################################################################################
 ############################################################################################################################
 
-def send_it(table_name, json_data):
+def send_it(table_name, json_data): # For CIV6-DCR
     dce_endpoint = "https://civ6-dce-5uqg.australiaeast-1.ingest.monitor.azure.com" # ingestion endpoint of the Data Collection Endpoint object
     dcr_immutableid = "dcr-00994ceaa4cb4affbd42ca3bcdefa50f" # immutableId property of the Data Collection Rule
     stream_name = table_name #name of the stream in the DCR that represents the destination table
@@ -325,7 +428,7 @@ def send_it(table_name, json_data):
 ############################################################################################################################
 ############################################################################################################################
 
-def send_it2(table_name, json_data):
+def send_it2(table_name, json_data): # For CIV6-2-DCR
     dce_endpoint = "https://civ6-dce-5uqg.australiaeast-1.ingest.monitor.azure.com" # ingestion endpoint of the Data Collection Endpoint object
     dcr_immutableid = "dcr-3165965bc56843aabf308d2e74d40131" # immutableId property of the Data Collection Rule
     stream_name = table_name #name of the stream in the DCR that represents the destination table

@@ -1,0 +1,44 @@
+[
+    {
+        "Game_Turn": "1",
+        "Player": "CIVILIZATION_HUNGARY",
+        "BY_TYPE_Tiles": "0",
+        "Buildings": "0",
+        "Districts": "0",
+        "Population": "0",
+        "Outgoing_Trade_Routes": "0",
+        "TOURISM": "0",
+        "Diplo_Victory": "0",
+        "BALANCE_Favor": "0",
+        "LIFETIME_Favor": "0",
+        "CO2_Per_Turn": "0"
+    },
+    {
+        "Game_Turn": "1",
+        "Player": "CIVILIZATION_MAORI",
+        "BY_TYPE_Tiles": "0",
+        "Buildings": "0",
+        "Districts": "0",
+        "Population": "0",
+        "Outgoing_Trade_Routes": "0",
+        "TOURISM": "0",
+        "Diplo_Victory": "0",
+        "BALANCE_Favor": "0",
+        "LIFETIME_Favor": "0",
+        "CO2_Per_Turn": "0"
+    },
+    {
+        "Game_Turn": "1",
+        "Player": "CIVILIZATION_SWEDEN",
+        "BY_TYPE_Tiles": "0",
+        "Buildings": "0",
+        "Districts": "0",
+        "Population": "0",
+        "Outgoing_Trade_Routes": "0",
+        "TOURISM": "0",
+        "Diplo_Victory": "0",
+        "BALANCE_Favor": "0",
+        "LIFETIME_Favor": "0",
+        "CO2_Per_Turn": "0"
+    }
+]
