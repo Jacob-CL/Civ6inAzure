@@ -1,138 +1,110 @@
 [
-    {
-      "Turn": 1,
-      "Num_Camps": "LOC_BARBARIAN_MELEE_3",
-      "Desired_Camps": "UNIT_SPEARMAN",
-      "Added_This_Turn": "67-37",
-      "Land_Plots": "",
-      "No_Visibility": "",
-      "Tribes": ""
-    },
-    {
-      "Turn": 1,
-      "Num_Camps": "LOC_BARBARIAN_MELEE_7",
-      "Desired_Camps": "UNIT_SPEARMAN",
-      "Added_This_Turn": "30-25",
-      "Land_Plots": "",
-      "No_Visibility": "",
-      "Tribes": ""
-    },
-    {
-      "Turn": 1,
-      "Num_Camps": "LOC_BARBARIAN_CAVALRY_6",
-      "Desired_Camps": "UNIT_SPEARMAN",
-      "Added_This_Turn": "13-16",
-      "Land_Plots": "",
-      "No_Visibility": "",
-      "Tribes": ""
-    },
-    {
-      "Turn": 1,
-      "Num_Camps": "LOC_BARBARIAN_MELEE_6",
-      "Desired_Camps": "UNIT_SPEARMAN",
-      "Added_This_Turn": "35-33",
-      "Land_Plots": "",
-      "No_Visibility": "",
-      "Tribes": ""
-    },
-    {
-      "Turn": 1,
-      "Num_Camps": "LOC_BARBARIAN_MELEE_2",
-      "Desired_Camps": "UNIT_SPEARMAN",
-      "Added_This_Turn": "67-28",
-      "Land_Plots": "",
-      "No_Visibility": "",
-      "Tribes": ""
-    },
-    {
-      "Turn": 1,
-      "Num_Camps": 5,
-      "Desired_Camps": 18,
-      "Added_This_Turn": 5,
-      "Land_Plots": 1159,
-      "No_Visibility": 1036,
-      "Tribes": 5
-    },
-    {
-      "Turn": 2,
-      "Num_Camps": "LOC_BARBARIAN_MELEE_8",
-      "Desired_Camps": "UNIT_SPEARMAN",
-      "Added_This_Turn": "49-9",
-      "Land_Plots": "",
-      "No_Visibility": "",
-      "Tribes": ""
-    },
-    {
-      "Turn": 2,
-      "Num_Camps": 6,
-      "Desired_Camps": 18,
-      "Added_This_Turn": 1,
-      "Land_Plots": 1159,
-      "No_Visibility": 1027,
-      "Tribes": 6
-    },
-    {
-      "Turn": 3,
-      "Num_Camps": "LOC_BARBARIAN_CAVALRY_7",
-      "Desired_Camps": "UNIT_SPEARMAN",
-      "Added_This_Turn": "68-10",
-      "Land_Plots": "",
-      "No_Visibility": "",
-      "Tribes": ""
-    },
-    {
-      "Turn": 3,
-      "Num_Camps": 7,
-      "Desired_Camps": 18,
-      "Added_This_Turn": 1,
-      "Land_Plots": 1159,
-      "No_Visibility": 1014,
-      "Tribes": 7
-    },
-    {
-      "Turn": 4,
-      "Num_Camps": "LOC_BARBARIAN_MELEE_1",
-      "Desired_Camps": "UNIT_SPEARMAN",
-      "Added_This_Turn": "12-30",
-      "Land_Plots": "",
-      "No_Visibility": "",
-      "Tribes": ""
-    },
-    {
-      "Turn": 4,
-      "Num_Camps": 8,
-      "Desired_Camps": 18,
-      "Added_This_Turn": 1,
-      "Land_Plots": 1159,
-      "No_Visibility": 1010,
-      "Tribes": 8
-    },
-    {
-      "Turn": 5,
-      "Num_Camps": "LOC_BARBARIAN_NAVAL_9",
-      "Desired_Camps": "UNIT_SPEARMAN",
-      "Added_This_Turn": "26-7",
-      "Land_Plots": "",
-      "No_Visibility": "",
-      "Tribes": ""
-    },
-    {
-      "Turn": 5,
-      "Num_Camps": 9,
-      "Desired_Camps": 18,
-      "Added_This_Turn": 1,
-      "Land_Plots": 1159,
-      "No_Visibility": 1003,
-      "Tribes": 9
-    },
-    {
-      "Turn": 6,
-      "Num_Camps": "LOC_BARBARIAN_CAVALRY_4",
-      "Desired_Camps": "UNIT_SPEARMAN",
-      "Added_This_Turn": "49-27",
-      "Land_Plots": "",
-      "No_Visibility": "",
-      "Tribes": ""
-    }
-  ]
-  
+  {
+    "Turn": "1",
+    "Num_Camps": "LOC_BARBARIAN_MELEE_9",
+    "Desired_Camps": "UNIT_SPEARMAN",
+    "Added_This_Turn": "18-10",
+    "Land_Plots": "",
+    "No_Visibility": "",
+    "Tribes": ""
+  },
+  {
+    "Turn": "1",
+    "Num_Camps": "LOC_BARBARIAN_CAVALRY_3",
+    "Desired_Camps": "UNIT_SPEARMAN",
+    "Added_This_Turn": "25-21",
+    "Land_Plots": "",
+    "No_Visibility": "",
+    "Tribes": ""
+  },
+  {
+    "Turn": "1",
+    "Num_Camps": "LOC_BARBARIAN_MELEE_3",
+    "Desired_Camps": "UNIT_SPEARMAN",
+    "Added_This_Turn": "26-35",
+    "Land_Plots": "",
+    "No_Visibility": "",
+    "Tribes": ""
+  },
+  {
+    "Turn": "1",
+    "Num_Camps": "LOC_BARBARIAN_MELEE_5",
+    "Desired_Camps": "UNIT_SPEARMAN",
+    "Added_This_Turn": "17-42",
+    "Land_Plots": "",
+    "No_Visibility": "",
+    "Tribes": ""
+  },
+  {
+    "Turn": "1",
+    "Num_Camps": "4",
+    "Desired_Camps": "18",
+    "Added_This_Turn": "4",
+    "Land_Plots": "1113",
+    "No_Visibility": "944",
+    "Tribes": "4"
+  },
+  {
+    "Turn": "2",
+    "Num_Camps": "LOC_BARBARIAN_MELEE_2",
+    "Desired_Camps": "UNIT_SPEARMAN",
+    "Added_This_Turn": "56-7",
+    "Land_Plots": "",
+    "No_Visibility": "",
+    "Tribes": ""
+  },
+  {
+    "Turn": "2",
+    "Num_Camps": "5",
+    "Desired_Camps": "18",
+    "Added_This_Turn": "1",
+    "Land_Plots": "1113",
+    "No_Visibility": "920",
+    "Tribes": "5"
+  },
+  {
+    "Turn": "3",
+    "Num_Camps": "LOC_BARBARIAN_MELEE_1",
+    "Desired_Camps": "UNIT_SPEARMAN",
+    "Added_This_Turn": "60-39",
+    "Land_Plots": "",
+    "No_Visibility": "",
+    "Tribes": ""
+  },
+  {
+    "Turn": "3",
+    "Num_Camps": "6",
+    "Desired_Camps": "18",
+    "Added_This_Turn": "1",
+    "Land_Plots": "1113",
+    "No_Visibility": "917",
+    "Tribes": "6"
+  },
+  {
+    "Turn": "4",
+    "Num_Camps": "LOC_BARBARIAN_CAVALRY_7",
+    "Desired_Camps": "UNIT_SPEARMAN",
+    "Added_This_Turn": "48-13",
+    "Land_Plots": "",
+    "No_Visibility": "",
+    "Tribes": ""
+  },
+  {
+    "Turn": "4",
+    "Num_Camps": "7",
+    "Desired_Camps": "18",
+    "Added_This_Turn": "1",
+    "Land_Plots": "1113",
+    "No_Visibility": "916",
+    "Tribes": "7"
+  },
+  {
+    "Turn": "5",
+    "Num_Camps": "LOC_BARBARIAN_MELEE_10",
+    "Desired_Camps": "UNIT_SPEARMAN",
+    "Added_This_Turn": "66-35",
+    "Land_Plots": "",
+    "No_Visibility": "",
+    "Tribes": ""
+  }
+]

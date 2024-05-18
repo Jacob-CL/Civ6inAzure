@@ -88,23 +88,31 @@ def monitor_log_file(log_file_path):
 ############################################################################################################################
 
 def monitor_csv_file(csv_file_path):
-    while True:  
+    while True:
         try:
             with open(csv_file_path, "r") as logfile:
-                if csv_file_path == "C:\\Users\\User\\AppData\\Local\\Firaxis Games\\Sid Meier\'s Civilization VI\\Logs\\Barbarians.csv":
+                if csv_file_path == "C:\\Users\\User\\AppData\\Local\\Firaxis Games\\Sid Meier's Civilization VI\\Logs\\Barbarians.csv":
                     filename = "Barbarians.csv"
                     print(f'Found {filename}..')
                     barbarians_json = convert_csv_to_json(csv_file_path)  # Pass the file path, not the file object
-                    send_it("Custom-Barbarians_CL", barbarians_json)
+                    send_it("Custom-Barbarian_Camps_CL", barbarians_json)
+                    send_it2("Custom-Barbarian_Units_CL", barbarians_json)
                     print(f"✔ Sent {filename} file!")
                     print(f"-- Now listening for new lines in {filename}...")
 
+                    # Process the headers
+                    reader = csv.DictReader(logfile)
+                    headers = [header.strip().replace(' ', '_') for header in reader.fieldnames]
+
                     # Now continue to monitor for new lines
-                    for line in tailer.follow(logfile):
+                    for line in tailer.follow(open(csv_file_path)):
                         print(f"I found a new line in {filename}!")
-                        line_json = convert_new_csvline_to_json(csv_file_path, line)
-                        send_it("Custom-Barbarians_CL", line_json)
-                        print(f"New {filename} line sent!") 
+                        line_json = convert_new_csvline_to_json(line, headers)
+                        with open("debug.txt", "w") as file:
+                            file.write(str(line_json))
+                        send_it("Custom-Barbarian_Camps_CL", line_json)
+                        send_it2("Custom-Barbarian_Units_CL", line_json)
+                        print(f"New {filename} line sent!")
 
         except Exception as e:
             logging.error(traceback.format_exc())
@@ -124,28 +132,42 @@ def convert_csv_to_json(csv_file_path):
 
         # Iterate over each row in the CSV file
         for row in reader:
-            # Create a dictionary for the current row
-            modified_row = {headers[i]: value if value is not None else '' for i, (header, value) in enumerate(row.items())}
+            # Create a dictionary for the current row with all values as strings
+            modified_row = {headers[i]: str(value).strip() if value is not None else '' for i, (header, value) in enumerate(row.items())}
             log_data.append(modified_row)
 
-        # Convert the list of dictionaries to JSON format
-        log_data = json.dumps(log_data)
-        return log_data
+    # Convert the list of dictionaries to JSON format
+    json_data = json.dumps(log_data, indent=2)
+    return json_data
     
 
 
 ############################################################################################################################
 ############################################################################################################################
 
-def convert_new_csvline_to_json(csv_file_path, line):
-    json_data = None
-    if csv_file_path == "C:\\Users\\User\\AppData\\Local\\Firaxis Games\\Sid Meier\'s Civilization VI\\Logs\\Barbarians.csv":
-        # Assuming the CSV file has the same structure as others
-        csv_row = line.strip().split(',')  # Assuming CSV is comma-separated
-        fieldnames = ['Added_This_Turn', 'Desired_Camps', 'Land_Plots', 'No_Visibility', 'Num_Camps', 'Tribes', 'Turn']
-        line_dict = dict(zip(fieldnames, csv_row))
-        json_data = json.dumps(line_dict)
+def convert_new_csvline_to_json(csv_line, headers):
+    """
+    Convert a single new CSV log line to JSON using the headers from the CSV file.
+    
+    Args:
+    csv_line (str): The new CSV log line as a string.
+    headers (list): List of column headers.
+    
+    Returns:
+    str: JSON representation of the CSV log line.
+    """
+    # Create a CSV reader for the single line
+    reader = csv.DictReader([csv_line], fieldnames=headers)
 
+    # Read the single row from the CSV reader
+    row = next(reader)
+
+    # Ensure all values are strings
+    modified_row = {key: str(value).strip() if value is not None else '' for key, value in row.items()}
+
+    # Convert the dictionary to a JSON string
+    json_data = json.dumps(modified_row)
+    
     return json_data
 
 
@@ -287,7 +309,7 @@ def convert_new_logline_to_json(log_file_path, line):
 
 def send_it(table_name, json_data):
     dce_endpoint = "https://civ6-dce-5uqg.australiaeast-1.ingest.monitor.azure.com" # ingestion endpoint of the Data Collection Endpoint object
-    dcr_immutableid = "dcr-2434728ef0d641668ce479cfbad78e61" # immutableId property of the Data Collection Rule
+    dcr_immutableid = "dcr-00994ceaa4cb4affbd42ca3bcdefa50f" # immutableId property of the Data Collection Rule
     stream_name = table_name #name of the stream in the DCR that represents the destination table
 
     credential = DefaultAzureCredential()
@@ -302,5 +324,20 @@ def send_it(table_name, json_data):
 
 ############################################################################################################################
 ############################################################################################################################
+
+def send_it2(table_name, json_data):
+    dce_endpoint = "https://civ6-dce-5uqg.australiaeast-1.ingest.monitor.azure.com" # ingestion endpoint of the Data Collection Endpoint object
+    dcr_immutableid = "dcr-3165965bc56843aabf308d2e74d40131" # immutableId property of the Data Collection Rule
+    stream_name = table_name #name of the stream in the DCR that represents the destination table
+
+    credential = DefaultAzureCredential()
+    client = LogsIngestionClient(endpoint=dce_endpoint, credential=credential, logging_enable=True)
+
+    body = [json.loads(json_data)]
+
+    try:
+        client.upload(rule_id=dcr_immutableid, stream_name=stream_name, logs=body)
+    except HttpResponseError as e:
+        print(f"Upload failed: {e}")
 
 start_monitoring(files)
