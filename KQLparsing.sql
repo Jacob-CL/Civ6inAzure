@@ -77,8 +77,8 @@ source
 | extend Submission_Type = iif(Type_of_Submission contains "UNIT_", extract(@"UNIT_\S+", 0, Type_of_Submission), "")
 | extend Submission_Type = iif(Type_of_Submission contains "BUILDING_", extract(@"BUILDING_\S+", 0, Type_of_Submission), Submission_Type)
 | extend Submission_Type = iif(Type_of_Submission contains "DISTRICT_", extract(@"DISTRICT_\S+", 0, Type_of_Submission), Submission_Type)
-| where Submissions != ""
-| project TimeGenerated, Player, Turn, City, Submissions, Submission_Type
+| where Submission_Type != ""
+| project TimeGenerated, Player, Turn, City, Submission_Type
 
 
 //Player_Stats (Player_Stats_1)

@@ -15,11 +15,11 @@ from azure.monitor.ingestion import LogsIngestionClient
 # logging.info("LogSender.py started...")
 
 files = [ 
-    # {'type': 'log', 'path': 'C:\\Users\\User\\AppData\\Local\\Firaxis Games\\Sid Meier\'s Civilization VI\\Logs\\AStar_GC.log'},
-    # {'type': 'log', 'path': 'C:\\Users\\User\\AppData\\Local\\Firaxis Games\\Sid Meier\'s Civilization VI\\Logs\\Lua.log'},
-    # {'type': 'log', 'path': 'C:\\Users\\User\\AppData\\Local\\Firaxis Games\\Sid Meier\'s Civilization VI\\Logs\\GameCore.log'},
+     {'type': 'log', 'path': 'C:\\Users\\User\\AppData\\Local\\Firaxis Games\\Sid Meier\'s Civilization VI\\Logs\\AStar_GC.log'},
+     {'type': 'log', 'path': 'C:\\Users\\User\\AppData\\Local\\Firaxis Games\\Sid Meier\'s Civilization VI\\Logs\\Lua.log'},
+     {'type': 'log', 'path': 'C:\\Users\\User\\AppData\\Local\\Firaxis Games\\Sid Meier\'s Civilization VI\\Logs\\GameCore.log'},
     # {'type': 'csv', 'path': 'C:\\Users\\User\\AppData\\Local\\Firaxis Games\\Sid Meier\'s Civilization VI\\Logs\\Barbarians.csv'},
-     {'type': 'csv', 'path': 'C:\\Users\\User\\AppData\\Local\\Firaxis Games\\Sid Meier\'s Civilization VI\\Logs\\AI_CityBuild.csv'},
+    # {'type': 'csv', 'path': 'C:\\Users\\User\\AppData\\Local\\Firaxis Games\\Sid Meier\'s Civilization VI\\Logs\\AI_CityBuild.csv'},
     # {'type': 'csv', 'path': 'C:\\Users\\User\\AppData\\Local\\Firaxis Games\\Sid Meier\'s Civilization VI\\Logs\\Player_Stats.csv'},
     # {'type': 'csv', 'path': 'C:\\Users\\User\\AppData\\Local\\Firaxis Games\\Sid Meier\'s Civilization VI\\Logs\\Player_Stats_2.csv'},
 ]
@@ -97,7 +97,7 @@ def monitor_log_file(log_file_path):
 ############################################################################################################################
 
 def monitor_csv_file(csv_file_path):
-    while True:
+    #while True:
         try:
             with open(csv_file_path, "r") as logfile:
                 if csv_file_path == "C:\\Users\\User\\AppData\\Local\\Firaxis Games\\Sid Meier's Civilization VI\\Logs\\Barbarians.csv":
@@ -130,7 +130,7 @@ def monitor_csv_file(csv_file_path):
                     AI_CityBuild_json = convert_csv_to_json(csv_file_path)  # Pass the file path, not the file object
                     with open("AI_CityBuild_OUTPUT.txt", "w") as file:
                         file.write(str(AI_CityBuild_json))
-                    send_it("Custom-Civ_Production_Queue_CL", AI_CityBuild_json)
+                    send_it2("Custom-Civ_Production_Queue_CL", AI_CityBuild_json)
                     print(f"✔ Sent {filename} file!")
                     print(f"-- Now listening for new lines in {filename}...")
 
@@ -142,8 +142,7 @@ def monitor_csv_file(csv_file_path):
                     for line in tailer.follow(open(csv_file_path)):
                         print(f"I found a new line in {filename}!")
                         line_json = convert_new_csvline_to_json(line, headers)
-                        send_it("Custom-Barbarian_Camps_CL", line_json)
-                        send_it2("Custom-Barbarian_Units_CL", line_json)
+                        send_it2("Custom-Civ_Production_Queue_CL", line_json)
                         print(f"New {filename} line sent!")
 
                 if csv_file_path == "C:\\Users\\User\\AppData\\Local\\Firaxis Games\\Sid Meier's Civilization VI\\Logs\\Player_Stats.csv":
@@ -212,13 +211,17 @@ def convert_csv_to_json(csv_file_path):
 
         if csv_file_path == "C:\\Users\\User\\AppData\\Local\\Firaxis Games\\Sid Meier's Civilization VI\\Logs\\AI_CityBuild.csv":
             # Process the headers
-            headers = [header.strip().replace(' ', '_') for header in reader.fieldnames]
-            headers = [header.strip().replace('.', '') for header in reader.fieldnames]
+            headers = [header.strip().replace(' ', '_').replace('.', '') for header in reader.fieldnames]
+
             # Iterate over each row in the CSV file
             for row in reader:
                 # Create a dictionary for the current row with all values as strings
-                modified_row = {headers[i]: str(value).strip() if value is not None else '' for i, (header, value) in enumerate(row.items())}
+                modified_row = {}
+                for i, (header, value) in enumerate(row.items()):
+                    if header and i < len(headers):
+                        modified_row[headers[i]] = str(value).strip() if value is not None else ''
                 log_data.append(modified_row)
+
 
         if csv_file_path == "C:\\Users\\User\\AppData\\Local\\Firaxis Games\\Sid Meier's Civilization VI\\Logs\\Player_Stats.csv":
             # Process the headers
