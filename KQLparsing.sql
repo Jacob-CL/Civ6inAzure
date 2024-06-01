@@ -70,15 +70,8 @@ source
 | extend Turn = iif(Construct == "", Turn = "0", tostring(Turn))
 | where Turn != "0"
 | extend City = trim_start(@"LOC_CITY_NAME_", City)
-| extend Order_Source = Order_Source
-| extend Submissions = iif(Order_Source startswith "SUBMITTED", Submissions = "SUBMITTED", "")
-| extend Type_of_Submission = trim_start(@"SUBMITTED ", Order_Source)
-| extend Type_of_Submission = trim_end(@"VALUE \d+\.\d+.*$", Type_of_Submission)
-| extend Submission_Type = iif(Type_of_Submission contains "UNIT_", extract(@"UNIT_\S+", 0, Type_of_Submission), "")
-| extend Submission_Type = iif(Type_of_Submission contains "BUILDING_", extract(@"BUILDING_\S+", 0, Type_of_Submission), Submission_Type)
-| extend Submission_Type = iif(Type_of_Submission contains "DISTRICT_", extract(@"DISTRICT_\S+", 0, Type_of_Submission), Submission_Type)
-| where Submission_Type != ""
-| project TimeGenerated, Player, Turn, City, Submission_Type
+| project TimeGenerated, Player, Turn, City, Construct, Order_Source
+
 
 
 //Player_Stats (Player_Stats_1)

@@ -18,11 +18,24 @@ files = [
      {'type': 'log', 'path': 'C:\\Users\\User\\AppData\\Local\\Firaxis Games\\Sid Meier\'s Civilization VI\\Logs\\AStar_GC.log'},
      {'type': 'log', 'path': 'C:\\Users\\User\\AppData\\Local\\Firaxis Games\\Sid Meier\'s Civilization VI\\Logs\\Lua.log'},
      {'type': 'log', 'path': 'C:\\Users\\User\\AppData\\Local\\Firaxis Games\\Sid Meier\'s Civilization VI\\Logs\\GameCore.log'},
-    # {'type': 'csv', 'path': 'C:\\Users\\User\\AppData\\Local\\Firaxis Games\\Sid Meier\'s Civilization VI\\Logs\\Barbarians.csv'},
-    # {'type': 'csv', 'path': 'C:\\Users\\User\\AppData\\Local\\Firaxis Games\\Sid Meier\'s Civilization VI\\Logs\\AI_CityBuild.csv'},
-    # {'type': 'csv', 'path': 'C:\\Users\\User\\AppData\\Local\\Firaxis Games\\Sid Meier\'s Civilization VI\\Logs\\Player_Stats.csv'},
-    # {'type': 'csv', 'path': 'C:\\Users\\User\\AppData\\Local\\Firaxis Games\\Sid Meier\'s Civilization VI\\Logs\\Player_Stats_2.csv'},
+    {'type': 'csv', 'path': 'C:\\Users\\User\\AppData\\Local\\Firaxis Games\\Sid Meier\'s Civilization VI\\Logs\\Barbarians.csv'},
+    {'type': 'csv', 'path': 'C:\\Users\\User\\AppData\\Local\\Firaxis Games\\Sid Meier\'s Civilization VI\\Logs\\AI_CityBuild.csv'},
+    {'type': 'csv', 'path': 'C:\\Users\\User\\AppData\\Local\\Firaxis Games\\Sid Meier\'s Civilization VI\\Logs\\Player_Stats.csv'},
+    {'type': 'csv', 'path': 'C:\\Users\\User\\AppData\\Local\\Firaxis Games\\Sid Meier\'s Civilization VI\\Logs\\Player_Stats_2.csv'},
 ]
+
+############################################################################################################################
+############################################################################################################################
+
+def add_keys(csv_file_path, additional_keys):
+    data = []
+    with open(csv_file_path, 'r') as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            for key, value in additional_keys.items():
+                row[key] = value
+            data.append(row)
+    return json.dumps(data)
 
 ############################################################################################################################
 ############################################################################################################################
@@ -127,7 +140,10 @@ def monitor_csv_file(csv_file_path):
                 if csv_file_path == "C:\\Users\\User\\AppData\\Local\\Firaxis Games\\Sid Meier's Civilization VI\\Logs\\AI_CityBuild.csv":
                     filename = "AI_CityBuild.csv"
                     print(f'Found {filename}..')
+                    # additional_keys = {"New_Header1": "", "New_Header2": "", "New_Header3": "", "Header4": ""}
+                    # AI_CityBuild_json = add_keys(csv_file_path, additional_keys)
                     AI_CityBuild_json = convert_csv_to_json(csv_file_path)  # Pass the file path, not the file object
+
                     with open("AI_CityBuild_OUTPUT.txt", "w") as file:
                         file.write(str(AI_CityBuild_json))
                     send_it2("Custom-Civ_Production_Queue_CL", AI_CityBuild_json)
@@ -447,3 +463,15 @@ def send_it2(table_name, json_data): # For CIV6-2-DCR
         print(f"Upload failed: {e}")
 
 start_monitoring(files)
+
+############################################################################################################################
+############################################################################################################################
+
+
+
+
+
+
+############################################################################################################################
+############################################################################################################################
+
