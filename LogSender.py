@@ -140,25 +140,25 @@ def monitor_csv_file(csv_file_path):
                 if csv_file_path == "C:\\Users\\User\\AppData\\Local\\Firaxis Games\\Sid Meier's Civilization VI\\Logs\\AI_CityBuild.csv":
                     filename = "AI_CityBuild.csv"
                     print(f'Found {filename}..')
-                    # additional_keys = {"New_Header1": "", "New_Header2": "", "New_Header3": "", "Header4": ""}
-                    # AI_CityBuild_json = add_keys(csv_file_path, additional_keys)
                     AI_CityBuild_json = convert_csv_to_json(csv_file_path)  # Pass the file path, not the file object
-
-                    with open("AI_CityBuild_OUTPUT.txt", "w") as file:
-                        file.write(str(AI_CityBuild_json))
-                    send_it2("Custom-Civ_Production_Queue_CL", AI_CityBuild_json)
-                    print(f"✔ Sent {filename} file!")
-                    print(f"-- Now listening for new lines in {filename}...")
 
                     # Process the headers
                     reader = csv.DictReader(logfile)
                     headers = [header.strip().replace(' ', '_') for header in reader.fieldnames]
 
+                    with open("AI_CityBuild_OUTPUT.txt", "w") as file:
+                        file.write(str(AI_CityBuild_json))
+                    send_it2("Custom-Production_Queue_CL", AI_CityBuild_json)
+                    print(f"✔ Sent {filename} file!")
+                    print(f"-- Now listening for new lines in {filename}...")
+
+
+
                     # Now continue to monitor for new lines
                     for line in tailer.follow(open(csv_file_path)):
                         print(f"I found a new line in {filename}!")
                         line_json = convert_new_csvline_to_json(line, headers)
-                        send_it2("Custom-Civ_Production_Queue_CL", line_json)
+                        send_it2("Custom-Production_Queue_CL", line_json)
                         print(f"New {filename} line sent!")
 
                 if csv_file_path == "C:\\Users\\User\\AppData\\Local\\Firaxis Games\\Sid Meier's Civilization VI\\Logs\\Player_Stats.csv":
