@@ -82,3 +82,16 @@ source
 | project-away Game_Turn
 
 //Player_Stats_2 (Player_Stats_2)
+
+// KQL for Proximity-To_City Logic App
+Map_Generation_CL
+| where TimeGenerated between (now() .. ago(2m))
+| where Message startswith_cs "Major Start X:"
+| extend XCoordinate = extract(@"Major Start X:(\s*)(\d+)", 2, Message),
+         YCoordinate = extract(@"Major Start Y:(\s*)(\d+)", 2, Message)
+| extend X_right_border = toint(XCoordinate) + 10
+| extend X_left_border = toint(XCoordinate) - 10
+| extend Y_top_border = toint(XCoordinate) + 10
+| extend Y_bottom_border = toint(XCoordinate) - 10
+
+Unit_Movement_CL
